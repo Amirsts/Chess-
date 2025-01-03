@@ -1,16 +1,30 @@
+#include <math.h>
 #include <stdio.h>
 int position(int i , int j);
-int pan(int i , int j);
-int knight(int i , int j);
-int move(int i , int j);
-int bishop(int i , int j);
-int rook(int i , int j);
-int queen(int i , int j);
-int King(int i , int j);
+int pan(int i1 , int j1, int i2 , int j2);
+int knight(int i1 , int j1, int i2 , int j2);
+int move(int i1 , int j1, int i2 , int j2);
+int bishop(int i1 , int j1, int i2 , int j2);
+int rook(int i1 , int j1, int i2 , int j2);
+int queen(int i1 , int j1, int i2 , int j2);
+int King(int i1 , int j1, int i2 , int j2);
 void print_board();
+int convert(char j);
+int is_valid(int value , int state);
+int command ();
+int ConvertToInt(char j);
 int main(void) {
     print_board();
+    command();
+
     return 0;
+}
+int command () {
+    char cmd1 [2];
+    char cmd2 [2];
+    scanf("%s", cmd1);
+    scanf("%s", cmd2);
+
 }
 int position(int i , int j) {
     /*
@@ -31,7 +45,7 @@ int position(int i , int j) {
             location[i][j] = 46;
         }
     }
-    location[0][0] = ;
+    location[1][3] = 80;
     return location [i] [j];
 }
 void print_board() {
@@ -44,10 +58,19 @@ void print_board() {
     }
     printf("  a b c d e f g h\n");
 }
-int move(int i , int j) {
+int move(int i1 , int j1 ,int i2 , int j2) {
+    int piece = position(i1,j1);
+    switch (piece) {
+        case 80:
+            pan(i1,j1,i2,j2);
+
+    }
+    if (piece == 46) {
+        return -1; //-1 means it position not have any piece
+    }
 
 }
-int pan(int i , int j) {
+int pan(int i , int j, int i2 , int j2) {
     int motivate [4] = { 0, 0, 0 ,0}; //first digit is true if could move left. second is can move forward so on. last is for convert
     if (position(i,j) == 112) {
         if (position(i-1,j) == 46) {
@@ -83,5 +106,64 @@ int pan(int i , int j) {
     }
     else {
 
+    }
+}
+int convert(char j) {
+    switch (j) {
+        case 'a':
+            return 0;
+        case 'b':
+            return 1;
+        case 'c':
+            return 2;
+        case 'd':
+            return 3;
+        case 'e':
+            return 4;
+        case 'f':
+            return 5;
+        case 'g':
+            return 6;
+        case 'h':
+            return 7;
+        default:
+            return -1;
+    }
+}
+
+int is_valid(int value , int state) {
+    if (state == 1) {
+        if (value <= 8 && value >= 0) {
+            return value;
+        }
+    }
+    while (convert(value) == state) {
+        printf("please enter a valid character : ");
+        scanf("%c", &value);
+    }
+    return value;
+};
+int ConvertToInt(char j) {
+    switch (j) {
+        case '0':
+            return 0;
+        case '1':
+            return 1;
+        case '2':
+            return 2;
+        case '3':
+            return 3;
+        case '4':
+            return 4;
+        case '5':
+            return 5;
+        case '6':
+            return 6;
+        case '7':
+            return 7;
+        case '8' :
+            return 8;
+        case '9':
+            return 9;
     }
 }
