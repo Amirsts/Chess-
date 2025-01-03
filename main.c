@@ -136,7 +136,7 @@ int convertJ(char j) {
             return -1;
     }
 }
-int convertI(int i) {
+int convertI(char i) {
     return 8-convertJ(i);
 }
 
@@ -146,7 +146,7 @@ int is_valid(int value , int state) {
             return value;
         }
     }
-    while (convert(value) == state) {
+    while (convertJ(value) == state) {
         printf("please enter a valid character : ");
         scanf("%c", &value);
     }
