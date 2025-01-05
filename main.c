@@ -26,16 +26,20 @@ int convertJ(char j);
 int convertI(char i);
 int limit_motion(int i, int j);
 int ConvertToInt(char j);
+
+//global variable and matrix
+
+int turn_player = 1;                        //1 means white and 0 means black
 /*
 int location [8][8] = {
-    {82, 78, 66, 81, 75, 66, 78, 82},
-    {80, 80, 80, 80, 80, 80, 80, 80},
-    {46, 46, 46, 46, 46, 46, 46, 46},
-    {46, 46, 46, 46, 46, 46, 46, 46},
-    {46, 46, 46, 46, 46, 46, 46, 46},
-    {46, 46, 46, 46, 46, 46, 46, 46},
+    {114, 110, 98, 113, 107, 98, 110, 114},
     {112, 112, 112, 112, 112, 112, 112, 112},
-    {114, 110, 98, 113, 107, 98, 110, 114}
+    {46, 46, 46, 46, 46, 46, 46, 46},
+    {46, 46, 46, 46, 46, 46, 46, 46},
+    {46, 46, 46, 46, 46, 46, 46, 46},
+    {46, 46, 46, 46, 46, 46, 46, 46},
+    {80, 80, 80, 80, 80, 80, 80, 80},
+    {82, 78, 66, 81, 75, 66, 78, 82},
 };
 */
 int location[8][8];
@@ -43,11 +47,20 @@ int location[8][8];
 int main(void) {
     printf(
         "please attention to my note first if you want to exit program please enter ex\nyou must enter first position as the piece and second position as the where piece will go like \"e6 e7\"\n please attend to my warning\n");
+    for (int i = 0; i < 8; i++) {
+        for (int j = 0; j < 8; j++) {
+            if (i == 6) {
+                location[i][j] = 80;
+            }
+            else {
+                location[i][j] = 46;
+            }
+        }
+    }
     command();
     return 0;
 }
 int command () {
-    int turn_player = 1;
     do{
         print_board();
         printf("Please enter the motion : \n");
@@ -64,42 +77,33 @@ int command () {
         int i2 = convertI(cmd2[1]);
         int j1 = convertJ(cmd1[0]);
         int j2 = convertJ(cmd2[0]);
+        DoMove(i1, j1, i2, j2);
         turn_player++;
         turn_player = (turn_player == 2) ? 0 : 1 ;
         printf("now player is %d \n", turn_player);
-        printf("now i1 is %d\nj1 is %d\ni2 is %d\nj2 is %d\n", i1, j1, i2, j2);
+        //printf("now i1 is %d\nj1 is %d\ni2 is %d\nj2 is %d\n", i1, j1, i2, j2);
     }while (1);
     return 0;
 }
 int position(int i , int j) {
     /*
     int location [8][8] = {
-        {82, 78, 66, 81, 75, 66, 78, 82},
-        {80, 80, 80, 80, 80, 80, 80, 80},
-        {46, 46, 46, 46, 46, 46, 46, 46},
-        {46, 46, 46, 46, 46, 46, 46, 46},
-        {46, 46, 46, 46, 46, 46, 46, 46},
-        {46, 46, 46, 46, 46, 46, 46, 46},
+        {114, 110, 98, 113, 107, 98, 110, 114},
         {112, 112, 112, 112, 112, 112, 112, 112},
-        {114, 110, 98, 113, 107, 98, 110, 114}
+        {46, 46, 46, 46, 46, 46, 46, 46},
+        {46, 46, 46, 46, 46, 46, 46, 46},
+        {46, 46, 46, 46, 46, 46, 46, 46},
+        {46, 46, 46, 46, 46, 46, 46, 46},
+        {80, 80, 80, 80, 80, 80, 80, 80},
+        {82, 78, 66, 81, 75, 66, 78, 82},
     };
     */
-    for (int i = 0; i < 8; i++) {
-        for (int j = 0; j < 8; j++) {
-            if (i == 1) {
-                location[i][j] = 80;
-            }
-            else {
-                location[i][j] = 46;
-            }
-        }
-    }
-    location[1][3] = 80;
     return location [i] [j];
 }
 void print_board() {
-    for (int i = 7; i >= 0; i--) {
-        printf("%d ", i+1);
+    int k=8;
+    for (int i = 0; i < 8; i++) {
+        printf("%d ", k--);
         for (int j = 0; j < 8; j++) {
             printf("%c ",position(i,j));
         }
@@ -157,37 +161,8 @@ int move(int i1 , int j1 ,int i2 , int j2) {
 
 int pan(int i , int j, int i2 , int j2) {
     int motivate [4] = { 0, 0, 0 ,0}; //first digit is true if could move left. second is can move forward so on. last is for convert
-    if (position(i,j) == 112) {
-        if (position(i-1,j) == 46) {
-            motivate[1] = 1;
-        }
-        if (i < 7 && j < 7 || i > 0 && j > 0) {
-            if (position(i-1,j-1) != 46 || position(i+1,j+1) != 46) {
-                motivate[0] = 1;
-                motivate[2] = 1;
-            }
-            else if (position(i-1,j-1) != 46) {
-                motivate[0] = 1;
-            }
-            else if (position(i+1,j+1) != 46) {
-                motivate[2] = 1;
-            }
-        }
-        else if (j==0 || j==7) {
-            if (position(i+1,j+1) != 46 && j==0) {
-                motivate[2] = 1;
-            }
-            else if (position(i-1,j-1) != 46) {
-                motivate[0] = 1;
-            }
-        }
-        else if (i == 0) {
-            printf("you can select one piece of piece below  \n1.Queen\n2.Rook\n3.Bishop\n4.Knight\nselect with number:");
-            scanf("%d",motivate[3]);
-            while (motivate[3] >= 5 && motivate[3] <= 0) {
+    if (turn_player) { //turn player 1 means piece white must move
 
-            }
-        }
     }
     else {
 
