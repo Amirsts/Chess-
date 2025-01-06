@@ -9,10 +9,11 @@ void print_board();
 int command ();
 int sheckTurn(int i, int j, int turn_player);
 void DoMove(int i1 , int j1, int i2 , int j2);
+void setCanMove();
 
 //function for pieces
 
-int pan(int i1 , int j1, int i2 , int j2);
+void pan(int i1 , int j1, int i2 , int j2);
 int knight(int i1 , int j1, int i2 , int j2);
 int bishop(int i1 , int j1, int i2 , int j2);
 int rook(int i1 , int j1, int i2 , int j2);
@@ -43,12 +44,13 @@ int location [8][8] = {
 };
 */
 int location[8][8];
-
+char canMove[8][8];
 int main(void) {
     printf(
         "please attention to my note first if you want to exit program please enter ex\nyou must enter first position as the piece and second position as the where piece will go like \"e6 e7\"\n please attend to my warning\n");
     for (int i = 0; i < 8; i++) {
         for (int j = 0; j < 8; j++) {
+            canMove[i][j] = 0;
             if (i == 6) {
                 location[i][j] = 80;
             }
@@ -159,13 +161,40 @@ int move(int i1 , int j1 ,int i2 , int j2) {
         }
 }
 
-int pan(int i , int j, int i2 , int j2) {
-    int motivate [4] = { 0, 0, 0 ,0}; //first digit is true if could move left. second is can move forward so on. last is for convert
+void pan(int i1 , int j1, int i2 , int j2) {
     if (turn_player) { //turn player 1 means piece white must move
-
+        if (i1 == 6) {
+            if (location [i1-2][j1] == 46 && location [i2-1][j1] == 46) {
+                canMove[i1-1][j1] = 1;
+                canMove[i1-2][j1] = 1;
+            }
+        }
+        if (location [i1-1][j1] == 46 ) {
+            canMove[i1-1][j1] = 1;
+        }
+        if (location [i1-1][j1-1] > 90 ) {
+            canMove[i1-1][j1-1] = 1;
+        }
+        if (location [i1-1][j1+1] > 90 ) {
+            canMove[i1-1][j1+1] = 1;
+        }
     }
     else {
-
+        if (i1 == 1) {
+            if (location [i1+2][j1] == 46 && location [i2+1][j1] == 46) {
+                canMove[i1+1][j1] = 1;
+                canMove[i1+2][j1] = 1;
+            }
+        }
+        if (location [i1+1][j1] == 46 ) {
+            canMove[i1+1][j1] = 1;
+        }
+        if (location [i1+1][j1-1] < 90 ) {
+            canMove[i1+1][j1-1] = 1;
+        }
+        if (location [i1+1][j1+1] > 90 ) {
+            canMove[i1+1][j1+1] = 1;
+        }
     }
 }
 int knight(int i1 , int j1, int i2 , int j2) {
