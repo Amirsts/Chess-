@@ -14,7 +14,7 @@ int getCommand(char bug);
 
 //function for pieces
 void pan(int i1 , int j1, int i2 , int j2);
-int knight(int i1 , int j1, int i2 , int j2);
+void knight(int i1 , int j1, int i2 , int j2);
 int bishop(int i1 , int j1, int i2 , int j2);
 int rook(int i1 , int j1, int i2 , int j2);
 int queen(int i1 , int j1, int i2 , int j2);
@@ -30,7 +30,7 @@ int ConvertToInt(char j);
 int Valid(char satr, int satrAdad);
 //global variable and matrix
 char cmd1[3], cmd2[3];
-int turn_player = 1;                        //1 means white and 0 means black
+int turn_player = 1;   //1 means white and 0 means black
 /*
 int location [8][8] = {
     {114, 110, 98, 113, 107, 98, 110, 114},
@@ -275,17 +275,17 @@ int checkTurn(int i1 , int j1,int turn_player) {
 
 
 
+
+
 void pan(int i1 , int j1, int i2 , int j2) {
     if (turn_player) { //turn player 1 means piece white must move
-        if (i1 == 6) {
-            if (location [i1-2][j1] == 46 && location [i2-1][j1] == 46) {
-                canMove[i1-1][j1] = 1;
-                canMove[i1-2][j1] = 1;
-            }
-        }
         if (location [i1-1][j1] == 46 ) {
             canMove[i1-1][j1] = 1;
         }
+        if (i1 == 6 && canMove[i1-1][j1] && location [i1-2][j1] == 46) {
+            canMove[i1-2][j1] = 1;
+        }
+        
         if (location [i1-1][j1-1] > 90) {
             canMove[i1-1][j1-1] = 1;
         }
@@ -295,7 +295,7 @@ void pan(int i1 , int j1, int i2 , int j2) {
     }
     else {
         if (i1 == 1) {
-            if (location [i1+2][j1] == 46 && location [i2+1][j1] == 46) {
+            if (location [i1+2][j1] == 46 && location [i1+1][j1] == 46) {  
                 canMove[i1+1][j1] = 1;
                 canMove[i1+2][j1] = 1;
             }
@@ -306,14 +306,91 @@ void pan(int i1 , int j1, int i2 , int j2) {
         if (location [i1+1][j1-1] < 90 ) {
             canMove[i1+1][j1-1] = 1;
         }
-        if (location [i1+1][j1+1] > 90 ) {
+        if (location [i1+1][j1+1] < 90 ) {   
             canMove[i1+1][j1+1] = 1;
         }
     }
 }
-int knight(int i1 , int j1, int i2 , int j2) {
-    return position(i1,j1) + position(i2,j2);
+
+
+
+
+
+void knight(int i1 , int j1, int i2 , int j2) {
+   
+ if (turn_player) { //turn player 1 means piece white must move
+
+        
+        //right half
+        if (location [i1-2][j1+1] == 46 || location [i1-2][j1+1] > 90 ) {
+            canMove[i1-2][j1+1] = 1;
+        }
+        if (location [i1+2][j1+1] == 46 || location [i1+2][j1+1] > 90 ) {
+            canMove[i1+2][j1+1] = 1;
+        }
+        if (location [i1-1][j1+2] == 46 || location [i1-1][j1+2] > 90 ) {
+            canMove[i1-1][j1+2] = 1;
+        }
+        if (location [i1+1][j1+2] == 46 || location [i1+1][j1+2] > 90 ) {
+            canMove[i1+1][j1+2] = 1;
+        }
+
+
+        //left half
+        if (location [i1-2][j1-1] == 46 || location [i1-2][j1-1] > 90 ) {
+            canMove[i1-2][j1-1] = 1;
+        }
+        if (location [i1+2][j1-1] == 46 || location [i1+2][j1-1] > 90 ) {
+            canMove[i1+2][j1-1] = 1;
+        }
+        if (location [i1-1][j1-2] == 46 || location [i1-1][j1-2] > 90 ) {
+            canMove[i1-1][j1-2] = 1;
+        }
+        if (location [i1+1][j1-2] == 46 || location [i1+1][j1-2] > 90 ) {
+            canMove[i1+1][j1-2] = 1;
+        }
+
+
+        
+    }
+    else {
+
+         //right half
+        if (location [i1-2][j1+1] == 46 || location [i1-2][j1+1] < 90 ) {
+            canMove[i1-2][j1+1] = 1;
+        }
+        if (location [i1+2][j1+1] == 46 || location [i1+2][j1+1] < 90 ) {
+            canMove[i1+2][j1+1] = 1;
+        }
+        if (location [i1-1][j1+2] == 46 || location [i1-1][j1+2] < 90 ) {
+            canMove[i1-1][j1+2] = 1;
+        }
+        if (location [i1+1][j1+2] == 46 || location [i1+1][j1+2] < 90 ) {
+            canMove[i1+1][j1+2] = 1;
+        }
+
+
+        //left half
+        if (location [i1-2][j1-1] == 46 || location [i1-2][j1-1] < 90 ) {
+            canMove[i1-2][j1-1] = 1;
+        }
+        if (location [i1+2][j1-1] == 46 || location [i1+2][j1-1] < 90 ) {
+            canMove[i1+2][j1-1] = 1;
+        }
+        if (location [i1-1][j1-2] == 46 || location [i1-1][j1-2] < 90 ) {
+            canMove[i1-1][j1-2] = 1;
+        }
+        if (location [i1+1][j1-2] == 46 || location [i1+1][j1-2] < 90 ) {
+            canMove[i1+1][j1-2] = 1;
+        }
+       
+    }
+
 }
+
+
+
+
 int rook(int i1 , int j1, int i2 , int j2) {
     return position(i1,j1) + position(i2,j2);
 }
