@@ -50,14 +50,14 @@ char cmd1[3], cmd2[3];
 int turn_player = 1;                        //1 means white and 0 means black
 
 int location [8][8] = {
-    {114, 110, 98, 113, 107, 98, 110, 114},
-    {112, 112, 112, 112, 112, 112, 112, 112},
+  {66, 46, 46, 78, 46, 46, 46, 66},
+    {46, 112, 46, 46, 46, 46, 46, 46},
+    {46, 46, 112, 46, 46, 46, 46, 46},
+    {46, 46, 46, 107, 80, 46, 46, 46},
+    {46, 46, 46, 46, 82, 46, 46, 46},
     {46, 46, 46, 46, 46, 46, 46, 46},
     {46, 46, 46, 46, 46, 46, 46, 46},
-    {46, 46, 46, 46, 46, 46, 46, 46},
-    {46, 46, 46, 46, 46, 46, 46, 46},
-    {80, 80, 80, 80, 80, 80, 80, 80},
-    {82, 78, 66, 81, 75, 66, 78, 82},  //81 is queen 113
+    {81, 46, 46, 46, 46, 46, 46, 46}, //81 is queen 113
 };
 
 
@@ -153,8 +153,9 @@ int command () {
         int i2 = convertI(ConvertToInt(cmd2[1]));
         int j1 = convertJ(cmd1[0]);
         int j2 = convertJ(cmd2[0]);
+    //    move(i1,j1, i2, j2);
         if (move(i1,j1, i2, j2)){
-            turn_player++;
+          turn_player++;
             turn_player = (turn_player == 2) ? 0 : 1 ;
             printf("now player is %d \n", turn_player);
         }
@@ -282,9 +283,11 @@ int move(int i1 , int j1 ,int i2 , int j2) {
             if (canMove[i2][j2]) {
                 DoMove(i1,j1,i2,j2);
                 setCanMove();
+                return 1;
             }
             else {
                 getCommand(5,1);
+                print_key();
                 setCanMove();
                 return 0;
             }
@@ -365,7 +368,22 @@ void print_board() {
     for (int i = 0; i < 8; i++) {
         printf("%d ", k--);
         for (int j = 0; j < 8; j++) {
-            printf("%c ",location[i][j]);
+   //        printf("%c ",location[i][j]);
+   switch (location[i][j]) {
+                case 112:  printf("♙ "); break;
+                case 110:  printf("♘ "); break;
+                case 98:  printf("♗ "); break;
+                case 114:  printf("♖ "); break;
+                case 113:  printf("♕ "); break;
+                case 107:  printf("♔ "); break;
+                case 80:  printf("♟ "); break;
+                case 78: printf("♞ "); break;
+                case 66:  printf("♝ "); break;
+                case 82: printf("♜ "); break;
+                case 81: printf("♛ "); break;
+                case 75: printf("♚ "); break;
+                default:  printf(". ");
+            }
         }
         printf("\n");
     }
@@ -500,7 +518,7 @@ int Queen(int i1 , int j1, int i2 , int j2) {
 int King(int i1 , int j1, int i2 , int j2) {
     int di = i2 - i1;
     int dj = j2 - j1;
-    if ((di > 0 || dj > 0) && (di < 2 && dj < 2 ) && (location [i2][j2]> 90 || location [i2][j2]==46)) {
+    if ((abs(di) > 0 || abs(dj) > 0) && (abs(di) < 2 && abs(dj) < 2 ) && (canTakePiece(i2 ,j2) || location [i2][j2]==46)) {
         canMove[i2][j2] = 1;
     }
 }
@@ -582,7 +600,7 @@ int Region(int i1, int j1, int i2, int j2) {
     else if (delta_i < 0 && delta_j <= 0) {
         return 3;
     }
-    else if (delta_i < 0 && delta_j >= 0) {
+    else if (delta_i <= 0 && delta_j > 0) {
         return 4;
     }
     else return 0;
