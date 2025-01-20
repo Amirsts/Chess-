@@ -3,14 +3,13 @@
 #include <stdio.h>
 //main funcion
 
-
-int move(int i1 , int j1, int i2 , int j2);
-void print_board();
 int command ();
-int checkTurn(int i1, int j1, int turn_player);
-void DoMove(int i1 , int j1, int i2 , int j2);
+int move(int i1 , int j1, int i2 , int j2);
 void setCanMove();
 int getCommand(char notation,char justNote);
+void print_board();
+void DoMove(int i1 , int j1, int i2 , int j2);
+int checkTurn(int i1, int j1, int turn_player);
 
 //function for pieces
 int Pawn(int i1 , int j1, int i2 , int j2);
@@ -26,12 +25,14 @@ int canTakePiece(int i2 , int j2);
 //usefull fanction
 void print_key();
 void DoItration(int i1 , int j1, int d1, int d2);
-int Region(int i1, int j1, int i2, int j2);
-int convertJ(char j);
 int convertI(char i);
-int limit_motion(int i, int j);
+int Region(int i1, int j1, int i2, int j2);
 int ConvertToInt(char j);
+int convertJ(char j);
+int limit_motion(int i, int j);
 int Valid(char satr, int satrAdad);
+
+
 //global variable and matrix
 typedef struct{
     int update;
@@ -50,14 +51,14 @@ char cmd1[3], cmd2[3];
 int turn_player = 1;                        //1 means white and 0 means black
 
 int location [8][8] = {
-  {66, 46, 46, 78, 46, 46, 46, 66},
-    {46, 112, 46, 46, 46, 46, 46, 46},
-    {46, 46, 112, 46, 46, 46, 46, 46},
-    {46, 46, 46, 107, 80, 46, 46, 46},
-    {46, 46, 46, 46, 82, 46, 46, 46},
-    {46, 46, 46, 46, 46, 46, 46, 46},
-    {46, 46, 46, 46, 46, 46, 46, 46},
-    {81, 46, 46, 46, 46, 46, 46, 46}, //81 is queen 113
+        {114, 110, 98, 113, 107, 98, 110, 114},
+        {112, 112, 112, 112, 112, 112, 112, 112},
+        {46, 46, 46, 46, 46, 46, 46, 46},
+        {46, 46, 46, 46, 46, 46, 46, 46},
+        {46, 46, 46, 46, 46, 46, 46, 46},
+        {46, 46, 46, 46, 46, 46, 46, 46},
+        {80, 80, 80, 80, 80, 80, 80, 80},
+        {82, 78, 66, 81, 75, 66, 78, 82}, //81 is queen 113
 };
 
 
@@ -83,14 +84,14 @@ int main(void) {
     SM.i2 = 0;
     SM.j2 = 0;
     printf(
-        "please attention to my note first if you want to exit program please enter ex\nyou must enter first position as the piece and second position as the where piece will go like \"e6 e7\"\n please attend to my warning\n");
+        "To move chess pieces, first enter the starting position and then the destination, (like: \"e6 e7\")\n If you want to exit the game, enter \"ex\" .\n");
     setCanMove();
     command();
     return 0;
 }
 
-                                     /*===take a look===*/
-                                  /*start the functions of main*/
+                                             /*===take a look===*/
+                                        /*start the functions of main*/
 
 
 int command () {
@@ -101,7 +102,7 @@ int command () {
             int update;
             scanf("%d", &update);
             while (update <0 && update > 5) {
-                printf("Please enter a number again . please enter correct number between 1 to 4\n");
+                printf("Please enter a number again . please enter the correct number between 1 to 4\n");
                 scanf("%d", update);
             }
             if (turn_player) {
@@ -411,10 +412,17 @@ int checkTurn(int i1 , int j1,int turn_player) {
 }
 
 
-                    /*---------------------------------------------------*/
-                             /*----------attention----------*/
-                         /*here is the edn of the main funcions*/
-                  /*---------------------------------------------------*/
+                       /*---------------------------------------------------*/
+                                /*----------attention----------*/
+                            /*here is the edn of the main funcions*/
+                      /*---------------------------------------------------*/
+
+
+
+
+
+                                     /*===take a look===*/
+                               /*start the function for pieces*/
 
 
 int Pawn(int i1 , int j1, int i2 , int j2) {
@@ -541,13 +549,16 @@ int canTakePiece(int i2 , int j2) {
 
                         /*---------------------------------------------------*/
                                     /*----------attention----------*/
-                                /*here is the edn the functions of peaces*/
+                             /*here is the end of the functions of peaces*/
                         /*---------------------------------------------------*/
 
 
 
 
-                                            /*===take a look===*/
+
+
+                                         /*===take a look===*/
+                                    /*start the usefull fanctions*/
 
 void print_key(){
     int i = 0, j = 0;
@@ -669,3 +680,10 @@ int Valid(char satr, int satrAdad) {
     return 0;
     // Invalid input
 }
+
+
+
+                       /*---------------------------------------------------*/
+                                    /*----------attention----------*/
+                             /*here is the end of the usefull fanction*/
+                        /*---------------------------------------------------*/
